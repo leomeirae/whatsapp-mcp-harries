@@ -1,0 +1,74 @@
+{
+  "application": {
+    "name": "whatsapp-mcp-server",
+    "description": "WhatsApp MCP Server for Claude/Cursor integration",
+    "repository": "your-repo-url",
+    "branch": "main",
+    "type": "application"
+  },
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "args": {
+      "BUILDKIT_INLINE_CACHE": "1"
+    }
+  },
+  "deploy": {
+    "port": 9090,
+    "environment": {
+      "TZ": "UTC",
+      "NODE_ENV": "production",
+      "WHATSAPP_BRIDGE_PORT": "9090",
+      "WHATSAPP_BRIDGE_HOST": "localhost",
+      "WHATSAPP_API_BASE_URL": "http://localhost:9090/api",
+      "LOG_LEVEL": "info",
+      "ENABLE_CONSOLE_LOGGING": "true",
+      "ENABLE_RATE_LIMITING": "true",
+      "RATE_LIMIT_REQUESTS_PER_MINUTE": "60",
+      "ENABLE_CORS": "true",
+      "CORS_ALLOWED_ORIGINS": "*",
+      "MAX_MEDIA_SIZE": "104857600",
+      "MEDIA_STORAGE_PATH": "/app/media",
+      "MAX_CONCURRENT_CONNECTIONS": "100",
+      "REQUEST_TIMEOUT": "30",
+      "HEALTH_CHECK_INTERVAL": "30"
+    },
+    "volumes": [
+      {
+        "source": "whatsapp_data",
+        "destination": "/app/whatsapp-bridge/store",
+        "readOnly": false
+      },
+      {
+        "source": "./media",
+        "destination": "/app/media",
+        "readOnly": true
+      }
+    ],
+    "healthcheck": {
+      "test": ["CMD", "curl", "-f", "http://localhost:9090/api/health"],
+      "interval": "30s",
+      "timeout": "10s",
+      "retries": 3,
+      "startPeriod": "60s"
+    },
+    "resources": {
+      "memory": "512M",
+      "cpu": "0.5"
+    },
+    "restart": "unless-stopped"
+  },
+  "networking": {
+    "ports": [
+      {
+        "host": 9090,
+        "container": 9090
+      }
+    ]
+  },
+  "monitoring": {
+    "healthCheck": true,
+    "logs": true,
+    "metrics": true
+  }
+} 

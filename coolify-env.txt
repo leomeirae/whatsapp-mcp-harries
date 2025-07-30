@@ -1,0 +1,56 @@
+# WhatsApp MCP Server - Environment Variables for Coolify
+# Copy and paste these variables in the Coolify dashboard
+
+# =============================================================================
+# CONFIGURAÇÃO BÁSICA (OBRIGATÓRIAS)
+# =============================================================================
+TZ=UTC
+NODE_ENV=production
+
+# =============================================================================
+# CONFIGURAÇÃO DO WHATSAPP BRIDGE (OBRIGATÓRIAS)
+# =============================================================================
+WHATSAPP_BRIDGE_PORT=9090
+WHATSAPP_BRIDGE_HOST=localhost
+WHATSAPP_API_BASE_URL=http://localhost:9090/api
+
+# =============================================================================
+# CONFIGURAÇÃO DE LOGS (RECOMENDADAS)
+# =============================================================================
+LOG_LEVEL=info
+ENABLE_CONSOLE_LOGGING=true
+
+# =============================================================================
+# CONFIGURAÇÃO DE SEGURANÇA (RECOMENDADAS)
+# =============================================================================
+ENABLE_RATE_LIMITING=true
+RATE_LIMIT_REQUESTS_PER_MINUTE=60
+ENABLE_CORS=true
+CORS_ALLOWED_ORIGINS=*
+
+# =============================================================================
+# CONFIGURAÇÃO DE MÍDIA (OPCIONAIS)
+# =============================================================================
+MAX_MEDIA_SIZE=104857600
+MEDIA_STORAGE_PATH=/app/media
+
+# =============================================================================
+# CONFIGURAÇÃO DE PERFORMANCE (OPCIONAIS)
+# =============================================================================
+MAX_CONCURRENT_CONNECTIONS=100
+REQUEST_TIMEOUT=30
+HEALTH_CHECK_INTERVAL=30
+
+# =============================================================================
+# CONFIGURAÇÃO DE ÁUDIO (OPCIONAIS)
+# =============================================================================
+AUDIO_BITRATE=32k
+AUDIO_SAMPLE_RATE=24000
+AUDIO_APPLICATION=voip
+
+# =============================================================================
+# CONFIGURAÇÃO DO SERVIDOR MCP (OPCIONAIS)
+# =============================================================================
+MCP_SERVER_NAME=whatsapp
+MCP_SERVER_DESCRIPTION="WhatsApp MCP Server for Claude/Cursor integration"
+MCP_SERVER_VERSION=1.0.0 

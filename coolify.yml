@@ -1,0 +1,57 @@
+# Coolify Configuration for WhatsApp MCP Server
+# This file contains deployment settings for Coolify
+
+# Application settings
+app:
+  name: whatsapp-mcp-server
+  description: "WhatsApp MCP Server for Claude/Cursor integration"
+  repository: "your-repo-url"  # Replace with your actual repository URL
+  branch: main
+
+# Build settings
+build:
+  dockerfile: Dockerfile
+  context: .
+  args:
+    - BUILDKIT_INLINE_CACHE=1
+
+# Environment variables
+environment:
+  - TZ=UTC
+  - NODE_ENV=production
+  - WHATSAPP_BRIDGE_PORT=9090
+  - WHATSAPP_API_BASE_URL=http://localhost:9090/api
+
+# Ports
+ports:
+  - "9090:9090"  # Go bridge API
+
+# Volumes for data persistence
+volumes:
+  - whatsapp_data:/app/whatsapp-bridge/store
+  - ./media:/app/media:ro
+
+# Health check
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 60s
+
+# Resource limits
+resources:
+  memory: "512M"
+  cpu: "0.5"
+
+# Restart policy
+restart: unless-stopped
+
+# Networks
+networks:
+  - default
+
+# Labels for Coolify
+labels:
+  - "coolify.managed=true"
+  - "coolify.type=application" 
