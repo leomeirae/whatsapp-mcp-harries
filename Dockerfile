@@ -23,6 +23,9 @@ COPY whatsapp-bridge/ ./
 # Build the Go application
 RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o whatsapp-bridge .
 
+# Verify the binary was built
+RUN ls -la whatsapp-bridge && file whatsapp-bridge
+
 # Python stage
 FROM python:3.11-slim
 
@@ -43,7 +46,10 @@ WORKDIR /app
 COPY --from=go-builder /app/whatsapp-bridge ./whatsapp-bridge
 
 # Verify binary exists and set permissions
-RUN ls -la /app/whatsapp-bridge && chmod +x /app/whatsapp-bridge
+RUN ls -la /app/whatsapp-bridge && chmod +x /app/whatsapp-bridge && file /app/whatsapp-bridge
+
+# Debug: Show what's in /app directory
+RUN echo "=== Contents of /app ===" && ls -la /app/
 
 # Copy Python project files
 COPY whatsapp-mcp-server/ ./whatsapp-mcp-server/

@@ -40,9 +40,18 @@ cd /app
 # Check if binary exists
 if [ ! -f "./whatsapp-bridge" ]; then
     echo "❌ WhatsApp bridge binary not found at /app/whatsapp-bridge"
+    echo "=== Debug: Contents of /app ==="
     ls -la /app/
+    echo "=== Debug: Current working directory ==="
+    pwd
+    echo "=== Debug: Environment ==="
+    env | grep -E "(PATH|PWD|USER)"
     exit 1
 fi
+
+echo "✅ WhatsApp bridge binary found:"
+ls -la ./whatsapp-bridge
+file ./whatsapp-bridge
 
 ./whatsapp-bridge &
 BRIDGE_PID=$!
