@@ -42,6 +42,9 @@ WORKDIR /app
 # Copy Go binary from builder stage
 COPY --from=go-builder /app/whatsapp-bridge ./whatsapp-bridge
 
+# Verify binary exists and set permissions
+RUN ls -la /app/whatsapp-bridge && chmod +x /app/whatsapp-bridge
+
 # Copy Python project files
 COPY whatsapp-mcp-server/ ./whatsapp-mcp-server/
 

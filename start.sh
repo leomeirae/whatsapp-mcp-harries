@@ -36,6 +36,14 @@ chmod +x /app/whatsapp-bridge
 # Start the Go bridge in background
 echo "🔧 Starting WhatsApp bridge..."
 cd /app
+
+# Check if binary exists
+if [ ! -f "./whatsapp-bridge" ]; then
+    echo "❌ WhatsApp bridge binary not found at /app/whatsapp-bridge"
+    ls -la /app/
+    exit 1
+fi
+
 ./whatsapp-bridge &
 BRIDGE_PID=$!
 
