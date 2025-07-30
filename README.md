@@ -14,7 +14,56 @@ Here's an example of what you can do when it's connected to Claude.
 
 > *Caution:* as with many MCP servers, the WhatsApp MCP is subject to [the lethal trifecta](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/). This means that project injection could lead to private data exfiltration.
 
-## Installation
+## 🚀 Quick Deploy with Coolify
+
+This project is now ready for deployment on Coolify self-hosted!
+
+### Prerequisites
+
+- Coolify self-hosted instance
+- Docker support
+- Git repository access
+
+### Deploy Steps
+
+1. **In Coolify Dashboard:**
+   - Create new application
+   - Source: Git Repository
+   - Repository: `https://github.com/leomeirae/whatsapp-mcp-harries.git`
+   - Branch: `main`
+
+2. **Build Configuration:**
+   - Dockerfile: `Dockerfile`
+   - Context: `.`
+   - Port: `9090`
+
+3. **Environment Variables:**
+   ```bash
+   TZ=UTC
+   NODE_ENV=production
+   WHATSAPP_BRIDGE_PORT=9090
+   WHATSAPP_API_BASE_URL=http://localhost:9090/api
+   ```
+
+4. **Volumes (Optional):**
+   - `whatsapp_data:/app/whatsapp-bridge/store` (for data persistence)
+   - `./media:/app/media:ro` (for media files)
+
+5. **Deploy and Authenticate:**
+   - Deploy the application
+   - Check logs for WhatsApp QR code
+   - Scan QR code with your WhatsApp mobile app
+
+### Configuration Files
+
+- `Dockerfile` - Multi-stage build with Go and Python
+- `docker-compose.yml` - Local development setup
+- `start.sh` - Startup script with health checks
+- `nginx.conf` - Reverse proxy configuration
+- `coolify-deploy.json` - Coolify configuration
+- `environment-variables.md` - Complete environment variables guide
+
+## 📋 Local Installation
 
 ### Prerequisites
 
@@ -29,8 +78,8 @@ Here's an example of what you can do when it's connected to Claude.
 1. **Clone this repository**
 
    ```bash
-   git clone https://github.com/lharries/whatsapp-mcp.git
-   cd whatsapp-mcp
+   git clone https://github.com/leomeirae/whatsapp-mcp-harries.git
+   cd whatsapp-mcp-harries
    ```
 
 2. **Run the WhatsApp bridge**
@@ -84,27 +133,28 @@ Here's an example of what you can do when it's connected to Claude.
 
    Or restart Cursor.
 
-### Windows Compatibility
+## 🐳 Docker Deployment
 
-If you're running this project on Windows, be aware that `go-sqlite3` requires **CGO to be enabled** in order to compile and work properly. By default, **CGO is disabled on Windows**, so you need to explicitly enable it and have a C compiler installed.
+### Local Docker
 
-#### Steps to get it working:
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
 
-1. **Install a C compiler**  
-   We recommend using [MSYS2](https://www.msys2.org/) to install a C compiler for Windows. After installing MSYS2, make sure to add the `ucrt64\bin` folder to your `PATH`.  
-   → A step-by-step guide is available [here](https://code.visualstudio.com/docs/cpp/config-mingw).
+# Or build manually
+docker build -t whatsapp-mcp-server .
+docker run -p 9090:9090 whatsapp-mcp-server
+```
 
-2. **Enable CGO and run the app**
+### Test Deployment
 
-   ```bash
-   cd whatsapp-bridge
-   go env -w CGO_ENABLED=1
-   go run main.go
-   ```
+```bash
+# Run the test script
+./test-deploy.sh
 
-Without this setup, you'll likely run into errors like:
-
-> `Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work.`
+# Test connectivity
+curl http://localhost:9090/api/health
+```
 
 ## Architecture Overview
 
@@ -181,3 +231,36 @@ By default, just the metadata of the media is stored in the local database. The 
 - **WhatsApp Out of Sync**: If your WhatsApp messages get out of sync with the bridge, delete both database files (`whatsapp-bridge/store/messages.db` and `whatsapp-bridge/store/whatsapp.db`) and restart the bridge to re-authenticate.
 
 For additional Claude Desktop integration troubleshooting, see the [MCP documentation](https://modelcontextprotocol.io/quickstart/server#claude-for-desktop-integration-issues). The documentation includes helpful tips for checking logs and resolving common issues.
+
+## 📚 Documentation
+
+- [Deployment Guide](DEPLOY.md) - Complete deployment instructions
+- [Environment Variables](environment-variables.md) - All configuration options
+- [Port Change Details](PORT_CHANGE.md) - Information about port configuration
+
+## 🔧 Development
+
+### Testing
+
+```bash
+# Run test script
+./test-deploy.sh
+
+# Test Docker build
+docker build -t whatsapp-mcp-server .
+
+# Test Docker Compose
+docker-compose up --build
+```
+
+### Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
