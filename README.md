@@ -46,7 +46,7 @@ This project is now ready for deployment on Coolify self-hosted!
    ```
 
 4. **Volumes (Optional):**
-   - `whatsapp_data:/app/whatsapp-bridge/store` (for data persistence)
+   - `whatsapp_data:/app/store` (for data persistence)
    - `./media:/app/media:ro` (for media files)
 
 5. **Deploy and Authenticate:**
@@ -166,7 +166,7 @@ This application consists of two main components:
 
 ### Data Storage
 
-- All message history is stored in a SQLite database within the `whatsapp-bridge/store/` directory
+- All message history is stored in a SQLite database within the `/app/store/` directory
 - The database maintains tables for chats and messages
 - Messages are indexed for efficient searching and retrieval
 
@@ -228,7 +228,7 @@ By default, just the metadata of the media is stored in the local database. The 
 - **WhatsApp Already Logged In**: If your session is already active, the Go bridge will automatically reconnect without showing a QR code.
 - **Device Limit Reached**: WhatsApp limits the number of linked devices. If you reach this limit, you'll need to remove an existing device from WhatsApp on your phone (Settings > Linked Devices).
 - **No Messages Loading**: After initial authentication, it can take several minutes for your message history to load, especially if you have many chats.
-- **WhatsApp Out of Sync**: If your WhatsApp messages get out of sync with the bridge, delete both database files (`whatsapp-bridge/store/messages.db` and `whatsapp-bridge/store/whatsapp.db`) and restart the bridge to re-authenticate.
+- **WhatsApp Out of Sync**: If your WhatsApp messages get out of sync with the bridge, delete both database files (`/app/store/messages.db` and `/app/store/whatsapp.db`) and restart the bridge to re-authenticate.
 
 For additional Claude Desktop integration troubleshooting, see the [MCP documentation](https://modelcontextprotocol.io/quickstart/server#claude-for-desktop-integration-issues). The documentation includes helpful tips for checking logs and resolving common issues.
 

@@ -29,11 +29,11 @@ WHATSAPP_API_BASE_URL=http://localhost:9090/api
 
 ### Configuração de Banco de Dados
 ```bash
-# Caminho do banco SQLite (relativo a whatsapp-bridge/store/)
-MESSAGES_DB_PATH=../whatsapp-bridge/store/messages.db
+# Caminho do banco SQLite (relativo a /app/store/)
+MESSAGES_DB_PATH=/app/store/messages.db
 
 # Caminho do banco de sessão do WhatsApp
-WHATSAPP_DB_PATH=../whatsapp-bridge/store/whatsapp.db
+WHATSAPP_DB_PATH=/app/store/whatsapp.db
 ```
 
 ### Configuração de Mídia
@@ -174,7 +174,7 @@ Configure os volumes para persistência:
 
 ```bash
 # Volume para dados do WhatsApp
-whatsapp_data:/app/whatsapp-bridge/store
+whatsapp_data:/app/store
 
 # Volume para mídia (opcional)
 ./media:/app/media:ro

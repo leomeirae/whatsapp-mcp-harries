@@ -45,7 +45,7 @@ Este guia explica como fazer o deploy do WhatsApp MCP Server no Coolify.
 5. **Volumes (Opcional)**
    - Para persistir dados do WhatsApp:
      - Source: `whatsapp_data`
-     - Destination: `/app/whatsapp-bridge/store`
+     - Destination: `/app/store`
    - Para compartilhar mídia:
      - Source: `./media`
      - Destination: `/app/media`

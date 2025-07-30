@@ -27,7 +27,7 @@ wait_for_service() {
 }
 
 # Create necessary directories
-mkdir -p /app/whatsapp-bridge/store
+mkdir -p /app/store
 mkdir -p /app/media
 
 # Set permissions

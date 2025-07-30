@@ -28,7 +28,7 @@ ports:
 
 # Volumes for data persistence
 volumes:
-  - whatsapp_data:/app/whatsapp-bridge/store
+        - whatsapp_data:/app/store
   - ./media:/app/media:ro
 
 # Health check

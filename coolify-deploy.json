@@ -36,7 +36,7 @@
     "volumes": [
       {
         "source": "whatsapp_data",
-        "destination": "/app/whatsapp-bridge/store",
+        "destination": "/app/store",
         "readOnly": false
       },
       {
