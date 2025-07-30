@@ -52,7 +52,7 @@ WORKDIR /app/whatsapp-mcp-server
 RUN uv sync --frozen
 
 # Create store directory for WhatsApp data
-RUN mkdir -p ../whatsapp-bridge/store
+RUN mkdir -p /app/store
 
 # Expose port for the Go bridge API
 EXPOSE 9090
